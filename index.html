@@ -620,48 +620,82 @@
     .nav-icon svg{ width:16px; height:16px; }
   }
 
-  /* Phones (portrait) */
+  /* Phones (portrait) — vertical stack: text → animation → text */
   @media (max-width: 720px){
-    /* --- HERO — completely re-tuned for portrait --- */
     .hero-wrap{ height: 220vh; }
-    .hero-sticky{ min-height: 100svh; height: 100svh; }
-    .hero-halo{ width: 90vw; top:60%; }
 
-    .hero-copy{
-      position:absolute;
-      top: 84px; left: 20px; right: 20px; bottom:auto;
-      transform: none;
-      max-width: none; text-align:left;
-      padding: 0;
+    /* Flex column: header text (top), canvas (fills middle), spec line (bottom) */
+    .hero-sticky{
+      min-height: 100svh; height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 78px 20px 24px;
     }
-    .hero-eyebrow{ font-size:9px; margin-bottom:12px; letter-spacing:.28em; }
+    .hero-halo{ width: 90vw; top: 50%; }
+
+    /* TOP — attracting text, always visible (no fade on mobile) */
+    .hero-copy{
+      position: static;
+      transform: none !important;
+      opacity: 1 !important;
+      max-width: none;
+      text-align: center;
+      padding: 0;
+      flex: 0 0 auto;
+      z-index: 5;
+    }
+    .hero-eyebrow{
+      font-size: 9.5px; margin-bottom: 12px; letter-spacing:.32em;
+      justify-content: center;
+    }
+    .hero-eyebrow::after{
+      content:""; width:24px; height:1px; background:var(--cyan); box-shadow:0 0 8px var(--cyan);
+    }
     h1.hero-title{
-      font-size: clamp(28px, 8vw, 38px);
-      line-height:1;
-      margin-bottom:12px;
+      font-size: clamp(30px, 8.5vw, 40px);
+      line-height: 1;
+      margin-bottom: 10px;
     }
     .hero-sub{
       font-size: 12.5px;
       line-height: 1.5;
-      max-width: 28ch;
-      margin-bottom: 16px;
+      max-width: 32ch;
+      margin: 0 auto;
     }
-    .hero-cta-mini{
-      font-size: 10px; letter-spacing:.16em;
-      padding: 8px 0;
+    .hero-cta-mini{ display: none; }  /* declutter mobile, full nav CTA covers this */
+
+    /* MIDDLE — canvas takes all remaining vertical space */
+    #seq{
+      position: relative !important;
+      inset: auto !important;
+      flex: 1 1 auto;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      z-index: 1;
     }
 
+    /* BOTTOM — spec line, always visible on mobile */
     .hero-spec-line{
-      bottom: 56px;
-      gap: 18px;
-      padding: 0 16px;
+      position: static !important;
+      opacity: 1 !important;
+      flex: 0 0 auto;
+      padding: 14px 8px 4px;
+      gap: 14px;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      margin-top: 12px;
     }
-    .hspec .v{ font-size: 17px; }
-    .hspec .k{ font-size: 8.5px; letter-spacing:.2em; margin-top:3px; }
-    .hspec .v span{ font-size: 11px !important; }
+    .hspec{ flex: 1 1 0; min-width: 0; }
+    .hspec .v{ font-size: 16px; font-weight:600; }
+    .hspec .k{ font-size: 8px; letter-spacing: .18em; margin-top: 4px; line-height:1.2; }
+    .hspec .v span{ font-size: 10px !important; }
 
     .scroll-hint{ display:none; }
     .stage-meta{ display:none; }
+    .hero-vignette{ display:none; }   /* vignette is for full-bleed photo; not needed when canvas is contained */
+    .hero-sticky::after{ display:none; }  /* bottom-fade — same reason */
 
     /* --- FEATURE BAR --- */
     .feature-bar{ padding: 22px 18px; }
@@ -1371,15 +1405,23 @@
     stagePct.textContent = String(Math.round(p*100)).padStart(3,'0') + '%';
     stageBar.style.setProperty('--p', (local*100).toFixed(0) + '%');
 
-    // Hero copy fades out fast as soon as user starts scrolling — chair gets the stage
-    const heroFade = 1 - smoothstep(0.02, 0.12, p);
-    heroCopy.style.opacity = heroFade.toFixed(3);
-    // Keep transform anchored to the vertical-center baseline so it doesn't drift
-    heroCopy.style.transform = `translateY(calc(-50% + ${(1-heroFade) * -16}px))`;
+    // Detect portrait mobile — on mobile, text is in normal flow as a structural
+    // header/footer, not an overlay that fades. CSS !important rules handle this,
+    // but we skip the JS opacity updates too for cleanliness.
+    const isMobile = window.innerWidth <= 720;
 
-    // Spec line appears at peak explosion
-    const showSpec = p > 0.58;
-    heroSpec.classList.toggle('show', showSpec);
+    if (!isMobile){
+      // Desktop: hero copy fades fast as user scrolls into the animation
+      const heroFade = 1 - smoothstep(0.02, 0.12, p);
+      heroCopy.style.opacity = heroFade.toFixed(3);
+      heroCopy.style.transform = `translateY(calc(-50% + ${(1-heroFade) * -16}px))`;
+      // Spec line appears at peak explosion
+      const showSpec = p > 0.58;
+      heroSpec.classList.toggle('show', showSpec);
+    } else {
+      // Mobile: both are always visible (structural top/bottom labels)
+      heroSpec.classList.add('show');
+    }
   }
 
   // ----- Navbar scroll behavior -----
