@@ -74,6 +74,8 @@
     background: var(--bg-0);
     color: var(--ink);
     overflow-x:hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
     font-feature-settings: "ss01","cv11","calt";
     letter-spacing: -0.011em;
   }
@@ -605,6 +607,137 @@
     color:var(--ink-3); font-size:11px; letter-spacing:.04em;
   }
   @media (max-width:900px){ .foot-grid{ grid-template-columns: 1fr 1fr; } .foot-brand{ grid-column: 1/-1; } }
+
+  /* ===================================================================
+     MOBILE OPTIMIZATION
+     =================================================================== */
+
+  /* Tablet & smaller laptops */
+  @media (max-width: 900px){
+    .nav, .nav.scrolled{ padding: 10px 16px; }
+    .nav-brand{ font-size:13px; letter-spacing:.15em; }
+    .nav-icon{ width:32px; height:32px; }
+    .nav-icon svg{ width:16px; height:16px; }
+  }
+
+  /* Phones (portrait) */
+  @media (max-width: 720px){
+    /* --- HERO — completely re-tuned for portrait --- */
+    .hero-wrap{ height: 220vh; }
+    .hero-sticky{ min-height: 100svh; height: 100svh; }
+    .hero-halo{ width: 90vw; top:60%; }
+
+    .hero-copy{
+      position:absolute;
+      top: 84px; left: 20px; right: 20px; bottom:auto;
+      transform: none;
+      max-width: none; text-align:left;
+      padding: 0;
+    }
+    .hero-eyebrow{ font-size:9px; margin-bottom:12px; letter-spacing:.28em; }
+    h1.hero-title{
+      font-size: clamp(28px, 8vw, 38px);
+      line-height:1;
+      margin-bottom:12px;
+    }
+    .hero-sub{
+      font-size: 12.5px;
+      line-height: 1.5;
+      max-width: 28ch;
+      margin-bottom: 16px;
+    }
+    .hero-cta-mini{
+      font-size: 10px; letter-spacing:.16em;
+      padding: 8px 0;
+    }
+
+    .hero-spec-line{
+      bottom: 56px;
+      gap: 18px;
+      padding: 0 16px;
+    }
+    .hspec .v{ font-size: 17px; }
+    .hspec .k{ font-size: 8.5px; letter-spacing:.2em; margin-top:3px; }
+    .hspec .v span{ font-size: 11px !important; }
+
+    .scroll-hint{ display:none; }
+    .stage-meta{ display:none; }
+
+    /* --- FEATURE BAR --- */
+    .feature-bar{ padding: 22px 18px; }
+    .feature-row{ grid-template-columns: 1fr 1fr; gap: 16px 12px; }
+    .feat-item{ gap: 10px; }
+    .feat-item svg{ width: 22px; height: 22px; }
+    .feat-item .t{ font-size: 12px; }
+    .feat-item .d{ font-size: 10.5px; line-height:1.35; }
+
+    /* --- CATALOG SECTION --- */
+    section.catalog{ padding: 72px 18px; }
+    .section-head{ flex-direction:column; align-items:flex-start; gap:18px; margin-bottom:28px; }
+    h2.section-title{ font-size: 32px; }
+    .section-lead{ font-size: 14px; }
+    .section-head .right{ flex-wrap:wrap; gap:6px; }
+    .pill{ padding:7px 12px; font-size:11px; }
+
+    .grid{ gap: 16px; }
+    .card{ border-radius: 14px; }
+    .card-media{ aspect-ratio: 4/3; }
+    .card-body{ padding: 16px 18px 18px; gap: 8px; }
+    .card-name{ font-size: 16px; }
+    .card-cat{ font-size: 9.5px; }
+    .card-rating{ font-size: 11.5px; }
+    .card-foot{ padding-top: 14px; }
+    .card-price .now{ font-size: 18px; }
+    .card-price .was{ font-size: 11px; }
+    .card-buy{ padding: 9px 14px; font-size:11.5px; }
+    .card-badge{ font-size: 8.5px; padding: 4px 7px; letter-spacing:.18em; top: 10px; left: 10px; }
+    .card-wish{ width: 30px; height: 30px; top: 10px; right: 10px; }
+    .card-wish svg{ width: 14px; height: 14px; }
+
+    /* --- PROMO --- */
+    .promo{ padding: 64px 20px; }
+    .promo h3{ font-size: 26px; }
+    .promo p{ font-size: 13px; max-width: 36ch; margin-bottom: 22px; }
+    .promo-form{ border-radius: 14px; padding: 4px; }
+    .promo-form input{ padding: 12px 16px; font-size: 13px; min-width: 0; flex: 1 1 0; width: 0;}
+    .promo-form button{ padding: 10px 16px; font-size: 12px; }
+
+    /* --- FOOTER --- */
+    footer{ padding: 36px 20px 22px; }
+    .foot-grid{ grid-template-columns: 1fr 1fr; gap: 28px 20px; padding-bottom: 28px; }
+    .foot-brand{ grid-column: 1 / -1; }
+    .foot-brand p{ font-size: 12.5px; max-width: 38ch; }
+    .foot-grid h5{ font-size: 10px; margin-bottom: 12px; }
+    .foot-grid a{ font-size: 12.5px; }
+    .foot-bottom{ flex-direction: column; align-items:flex-start; gap: 8px; font-size: 10.5px; }
+  }
+
+  /* Very small phones (≤ 380px e.g. iPhone SE) */
+  @media (max-width: 380px){
+    h1.hero-title{ font-size: 26px; }
+    .hero-sub{ font-size: 12px; max-width: 26ch; }
+    .hero-spec-line{ gap: 12px; }
+    .hspec .v{ font-size: 14px; }
+    .hspec .k{ font-size: 8px; }
+
+    h2.section-title{ font-size: 26px; }
+    section.catalog{ padding: 56px 14px; }
+    .grid{ gap: 12px; }
+    .promo h3{ font-size: 22px; }
+
+    .nav-actions{ gap: 8px; }
+    .nav-icon{ width: 30px; height: 30px; }
+  }
+
+  /* Landscape phones — keep cover-fit (handled in JS) but tighten text */
+  @media (max-width: 900px) and (orientation: landscape) and (max-height: 500px){
+    .hero-wrap{ height: 240vh; }
+    .hero-copy{ top: 50%; transform: translateY(-50%); max-width: 280px; }
+    h1.hero-title{ font-size: 28px; }
+    .hero-sub{ font-size: 12px; }
+    .hero-spec-line{ bottom: 32px; gap: 14px; }
+  }
+
 </style>
 </head>
 <body>
@@ -1090,20 +1223,29 @@
     const ch = canvas.clientHeight;
     const ir = img.width / img.height;
     const cr = cw / ch;
-    // COVER fit — photo fills the entire viewport so the page's atmosphere
-    // flows continuously from the chair scene into the sections below.
+    // Adaptive fit:
+    // - Landscape/desktop viewport → COVER (photo fills whole viewport)
+    // - Portrait/mobile viewport → CONTAIN with vertical bias so chair sits
+    //   in the lower-2/3 area, leaving room for the headline at top.
+    const isPortrait = cr < 0.85;   // viewport narrower than 17:20
     let dw, dh, dx, dy;
-    if (ir > cr) {
-      dh = ch; dw = ch * ir; dx = (cw - dw) / 2; dy = 0;
-    } else {
+    if (isPortrait){
+      // CONTAIN-fit by width — chair stays whole, no side cropping when parts explode
       dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2;
+      // Bias the image downward so headline area at top stays clear
+      dy = Math.min(ch - dh + ch * 0.05, ch * 0.18);
+    } else {
+      // COVER for desktop/landscape
+      if (ir > cr) { dh = ch; dw = ch * ir; dx = (cw - dw) / 2; dy = 0; }
+      else         { dw = cw; dh = cw / ir; dx = 0; dy = (ch - dh) / 2; }
     }
 
     // Camera pulls back during explode so all parts stay in frame, then held
     const ANIM_END = 0.70;
     const animP = Math.min(1, progress / ANIM_END);
     const eased = animP < 0.5 ? 2*animP*animP : 1 - Math.pow(-2*animP+2,2)/2;
-    const scale = 1.0 - eased * 0.16;
+    // Less pull-back needed on portrait since contain-fit already shows everything
+    const scale = 1.0 - eased * (isPortrait ? 0.04 : 0.16);
     const sw = dw * scale;
     const sh = dh * scale;
     const sx = dx + (dw - sw)/2;
@@ -1249,6 +1391,7 @@
 
   // ----- Wire it up -----
   window.addEventListener('resize', resize, { passive: true });
+  window.addEventListener('orientationchange', resize, { passive: true });
   window.addEventListener('scroll', onScroll, { passive: true });
   resize();
   computeProgress();
